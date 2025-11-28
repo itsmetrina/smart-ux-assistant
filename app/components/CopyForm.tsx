@@ -45,7 +45,7 @@ export default function CopyForm({ onResult }: any) {
                 value={context}
                 onChange={(e) => setContext(e.target.value)}
                 placeholder="Enter context..."
-                className="bg-[#111] border border-[#333] p-2 rounded w-full min-h-[80px]"
+                className="bg-[#111] border border-[#333] p-2 rounded w-full min-h-20"
             />
             <button
                 onClick={generate}
