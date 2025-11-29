@@ -139,6 +139,7 @@ Or use Vercel Dashboard:
 ```
 app/
   ├── api/
+  │   ├── _lib/rateLimiter.ts
   │   ├── generate/route.ts
   │   ├── improve/route.ts
   │   └── translate/route.ts
@@ -147,6 +148,14 @@ app/
   │   ├── CopyPreview.tsx
   │   ├── ImproveResult.tsx
   │   └── TranslateResult.tsx
+  ├── hooks/
+  │   ├── useAI.ts
+  │   ├── useCooldown.ts
+  │   ├── useDebounce.ts
+  │   ├── useMobileHistorySheet.ts
+  │   ├── useScroolToResult.ts
+  ├── store/
+  │   ├── useHistory.ts
   ├── layout.tsx
   ├── page.tsx
   └── globals.css
@@ -158,20 +167,21 @@ public/
 
 # 🧠 How It Works
 
-### Frontend (Client Components)
+### **Frontend (Client Components)**
 
-* User fills form → triggers `/api/generate`
-* Results displayed in polished cards
-* Improve & Translate buttons call respective APIs
-* Additional result cards appear dynamically
+* Form triggers `/api/generate`
+* CopyPreview renders suggestions
+* Improve + Translate trigger respective APIs
+* Smooth auto‑scroll brings results into view
+* Mobile bottom sheet shows full history
 
-### Backend (Next.js Route Handlers)
+### **Backend (Next.js Route Handlers)**
 
-* `/api/generate` → prompts AI to output 3 variations
-* `/api/improve` → refines selected copy
-* `/api/translate` → returns structured translations
+* `/api/generate` → returns structured variations
+* `/api/improve` → returns refined copy
+* `/api/translate` → returns `en`, `hi`, `bn` JSON object
 
-All backend routes run securely on the server.
+All routes run securely as server functions.
 
 ---
 
