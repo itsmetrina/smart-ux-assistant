@@ -44,26 +44,35 @@ export default function useAI() {
     // IMPROVE
     async function improve(text: string) {
         if (!canCall()) return;
+        setLoading(true);
         const res = await fetch("/api/improve", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text }),
         });
-        if (await handleRateLimit(res)) return;
+        if (await handleRateLimit(res)) {
+            setLoading(false);
+            return
+        };
         const data = await res.json();
         setImproved(data.improved);
         add({ timestamp: Date.now(), action: "Improve", context: text, ideas: [data.improved], component: null, tone: null });
+        setLoading(false);
     }
 
     // TRANSLATE
     async function translate(text: string) {
         if (!canCall()) return;
+        setLoading(true);
         const res = await fetch("/api/translate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text }),
         });
-        if (await handleRateLimit(res)) return;
+        if (await handleRateLimit(res)) {
+            setLoading(false);
+            return;
+        };
         const data = await res.json();
         setTranslated(data);
         add({
@@ -74,6 +83,7 @@ export default function useAI() {
             component: null,
             tone: null
         });
+        setLoading(false);
     }
 
     async function clearImproved() {
